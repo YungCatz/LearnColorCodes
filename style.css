@@ -10,34 +10,46 @@ font-family: 'Roboto', sans-serif;
 font-family: 'Rubik Puddles', cursive;*/
 
 :root {
-    --dark-mode-background: #121212;
+    --dark-mode-background: #0e0e0e;
+    --dark-mode-background2: rgb(18, 18, 18);
     --borderColor: white;
     --anchor-color: #ffffffaf;
     --button-hover: #ffffff42;
     --button-active: #ffffff5a;
+    --changeBTN-border:white;
+    --changeBTN-hover:#ffffff42;
+    --changeBTN-active:#ffffff5a;
+
+    --rightAnswerBorder: #BDFCC9;
+    --kindaWrongAnswerBorder: #ffc847;
+    --wrongAnswerBorder: #FFB3B3;
+
+    --border-outer: 23px;
+    --border-inner: 8px;
     --rgbColor: ;
 
     --svg-dark-mode: white;
+    color-scheme: dark;
 }
 
 body {
+
     width: 100%;
     height: 100%;
     margin: 0;
 
     overflow: hidden;
     display: flex;
-    position: relative;
     flex-wrap: wrap;
     flex-direction: column;
-    
+
     color: white;
     font-family: 'Roboto', sans-serif;
 }
 
 header {
     margin-top: 40px;
-    margin-bottom: 120px;
+    margin-bottom: 70px;
     width: 100%;
     height: 20vh;
 
@@ -61,9 +73,10 @@ header {
     font-size: clamp(1.125rem, 0.725rem + 1.6vw, 1.625rem);
     margin: 10px;
 }
-.headerLeft > p {
+
+.headerLeft>p {
     text-align: center;
-    width: 750px;
+    width: 100vw;
 }
 
 .headerTitle {
@@ -86,42 +99,61 @@ header {
 }
 
 .wrapper {
-    width: 100%;
-    height: 500px;
+    width: calc(100% - 40px);
+    margin: 20px;
 
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.colorWrapper{
     position: relative;
+
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    aspect-ratio: 1.4 / 1;
+
+    margin-bottom: 20px;
+    display: flex;
 }
 
 .color {
-    width: 600px;
-    height: 400px;
-    border-radius: 20px;
-    margin: 20px;
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-outer);
 }
 
 .changeColor {
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 36px;
     height: 36px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    border: 2px solid var(--borderColor);
+    border: 2px solid var(--changeBTN-border);
     justify-self: flex-end;
-    border-radius: 8px;
-    margin-right: 7px;
-    margin-top: 2px;
+    border-radius: var(--border-inner);
+    margin-top: 25px;
+    margin-right: 25px;
+    cursor: pointer;
+}
+.changeColor > svg > path{
+    fill: var(--changeBTN-border);
 }
 
 .changeColor:hover {
-    background-color: #ffffff18;
+    background-color: var(--changeBTN-hover);
 }
 
 .changeColor:active {
-    background-color: var(--button-active);
+    background-color: var(--changeBTN-active);
+    transform: scale(.9) translateY(-0.9px);
 }
 
 svg>path {
@@ -130,46 +162,75 @@ svg>path {
 
 .inputs {
     border: 2.5px solid var(--rgbColor);
-    border-radius: 20px;
-    width: 575px;
+    border-radius: var(--border-outer);
+
+    width: calc(100% - 20px);
+    max-width: 580px;
     height: 40px;
     padding: 10px;
-    display: grid;
-    grid-template-columns: 139px 261px 120px 60px;
-}
-
-#colorType {
-    background-color: transparent;
-    color: white;
-    border: 2px solid var(--borderColor);
-    width: 125px;
-    height: 36px;
-    padding: 0;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-radius: 8px;
-    margin-top: 2px;
-    margin-left: 2px;
-    margin-right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .inputField {
-    width: 240px;
-    height: 32.5px;
+    flex-grow: 1;
+    height: 33px;
     padding: 0;
-    margin-top: 2px;
     background-color: transparent;
     border: 2px solid var(--borderColor);
     border-radius: 8px;
     color: white;
     padding-left: 10px;
+    display: none;
+}
+
+.inputFieldRGB {
+    flex-grow: 1;
+    height: 33px;
+    width: 0px;
+    padding: 0;
+    background-color: transparent;
+    border: 2px solid var(--borderColor);
+    border-radius: 8px;
+    color: white;
+    
+    padding-left: 10px;
+    margin-right: 12px;
+    transition: all 250ms;
+}
+
+#colorType {
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    cursor: pointer;
+
+    background-color: var(--dark-mode-background);
+    color: white;
+    border: 2px solid var(--borderColor);
+    width: 55px;
+    height: 37px;
+    padding: 0;
+    padding-left: 10px;
+    border-radius: var(--border-inner);
+    margin-left: 2px;
+    z-index: 5;
+    margin-right: 12px;
+    position: relative;
+    appearance: none;
+}
+#colorType option:checked {
+    background-color: var(--button-hover) !important;
+}
+option:hover {
+    background-color: white !important;
 }
 
 .submitClass {
     content: "";
     color: white;
-    width: 32.5px;
-    height: 32.5px;
+    height: 33px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -177,26 +238,34 @@ svg>path {
     border: 2px solid var(--borderColor);
     border-radius: 8px;
     position: relative;
-    margin-left: 4.5px;
-    margin-top: 2px;
+    margin-left: 12.5px;
+    margin-right: 2px;
+    user-select: none;
 }
 
-.submitClass > input {
+.submitClass>input {
     z-index: 6;
     background-color: transparent;
-    width: 32.5px;
-    height: 32.5px;
+    width: 33px;
+    height: 33px;
     border-radius: 8px;
     border: none;
+    cursor: pointer;
 }
-.submitClass > input:hover {
+
+.submitClass>input:hover {
     background-color: var(--button-hover);
 }
-.submitClass > input:active {
+
+.submitClass>input:active {
     background-color: var(--button-active);
 }
 
-.submitClass > svg {
+.submitClass:has(>.submitAnswer:active){
+    transform: scale(.9) translateY(-0.8125px);
+}
+
+.submitClass>svg {
     z-index: 4;
     position: absolute;
     width: 26px;
@@ -210,7 +279,7 @@ footer {
 
     display: flex;
     position: fixed;
-    bottom: 0;
+    bottom: -10px;
     align-items: center;
     flex-direction: column;
 
@@ -220,6 +289,7 @@ footer {
 footer>h1 {
     font-size: 12px;
 }
+
 footer>p {
     font-size: 12px;
 }
@@ -239,6 +309,7 @@ footer>p {
     display: grid;
     place-content: center;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 #showLegalNotice[type="checkbox"]::before {
@@ -255,29 +326,40 @@ footer>p {
     border-radius: 0.15em;
 }
 
-.legalNotice {
+.legalWrapper {
     position: absolute;
-    width: 75vw;
-    height: 75vh;
-    margin: 125px;
-    top: 0;
-    left: 0;
-    border: 2px solid var(--borderColor);
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border-radius: 25px;
-    background-color: var(--dark-mode-background);
+    z-index: 99;
+    backdrop-filter: blur(0px);
+    display: none;
 }
 
-.legalNotice > button {
+.legalNotice {
+    position: relative;
+    width: 500px;
+    height: 750px;
+    flex-direction: column;
+    margin: 125px;
+    border: 2px solid var(--borderColor);
+    border-radius: 25px;
+    background-color: var(--dark-mode-background);
+    display: none;
+}
+
+.legalNotice>button {
     position: absolute;
     margin: 15px;
     width: 50px;
     height: 50px;
-    align-self: self-end;
     top: 0;
+    right: 0;
+    cursor: pointer;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -285,27 +367,37 @@ footer>p {
     border-radius: 14px;
     border: 1px solid var(--borderColor);
 }
-.legalNotice > button:hover {
+
+#closeLegalNotice {
+    cursor: pointer;
+}
+
+.legalNotice>button:hover {
     background-color: var(--button-hover);
 }
-.legalNotice > button:active {
+
+.legalNotice>button:active {
     background-color: var(--button-active);
 }
 
-.legalNotice > h2 {
-    margin: 0;
+.legalNotice>h2 {
+    margin: 40px;
+    margin-left: 110px;
+    margin-top: 80px;
     font-size: clamp(1.875rem, 0.875rem + 4vw, 3.125rem);
 }
-.legalNotice > h2 > span{
-    color: var(--rgbColor);
-    font-size: clamp(1.875rem, 0.875rem + 4vw, 3.125rem);
-}
-.legalNotice > h2 > span{
+
+.legalNotice>h2>span {
     color: var(--rgbColor);
     font-size: clamp(1.875rem, 0.875rem + 4vw, 3.125rem);
 }
 
-.legalNotice > p {
+.legalNotice>h2>span {
+    color: var(--rgbColor);
+    font-size: clamp(1.875rem, 0.875rem + 4vw, 3.125rem);
+}
+
+.legalNotice>p {
     color: var(--anchor-color);
     margin-left: 50px;
     margin-right: 50px;
@@ -316,17 +408,19 @@ footer>p {
 .personalSite {
     margin: 0;
 }
-.personalSite > a {
+
+.personalSite>a {
     color: var(--anchor-color);
     text-decoration: var(--anchor-color) underline !important;
     animation: glow 1s infinite alternate ease;
 }
 
 @keyframes glow {
-    0%{
+    0% {
         text-shadow: 2px 2px 5px rgba(255, 255, 255, 0);
-}
+    }
+
     100% {
         text-shadow: 2px 2px 5px rgba(255, 255, 255, .5);
-}
+    }
 }
